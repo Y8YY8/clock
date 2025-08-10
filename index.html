@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رقم الأسبوع والوقت المخصص</title>
+    <!-- تضمين Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* تعريف خط Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            direction: rtl; /* لجعل النص يبدأ من اليمين لليسار للعربية */
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        /* تحسين animation pulse */
+        @keyframes pulse-improved {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+        }
+        .animate-pulse-improved {
+            animation: pulse-improved 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        /* تعريف الظل المخصص */
+        .shadow-3xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .shadow-4xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 15px 15px -8px rgba(0, 0, 0, 0.3);
+        }
+        /* ظل داخلي للدوائر */
+        .shadow-inner-lg {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(255, 255, 255, 0.1);
+        }
+        /* ستايل لليوم الحالي - دائرة */
+        .current-day {
+            position: relative;
+        }
+        .current-day::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%; /* حجم الدائرة الخارجية */
+            height: 120%; /* حجم الدائرة الخارجية */
+            background-color: rgba(74, 222, 128, 0.2); /* لون أخضر فاتح شفاف */
+            border: 2px solid #4ade80; /* حدود خضراء */
+            border-radius: 9999px; /* دائرة كاملة */
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            animation: pulse-border 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-950 min-h-screen flex items-center justify-center p-6">
+
+    <div class="bg-gray-700 bg-opacity-90 backdrop-filter backdrop-blur-md p-10 rounded-3xl shadow-3xl max-w-4xl w-full text-center border border-gray-600 transform transition-all duration-500 hover:scale-105 hover:shadow-4xl relative overflow-hidden flex flex-col md:flex-row items-start justify-between md:gap-8">
+        <!-- خلفية زخرفية خفيفة داخل البطاقة -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-gray-600 to-transparent opacity-20 transform -rotate-12 scale-150"></div>
+        <div class="absolute inset-0 bg-gradient-to-bl from-gray-600 to-transparent opacity-20 transform rotate-12 scale-150"></div>
+
+        <h1 class="sr-only">رقم الأسبوع والوقت المخصص</h1> 
+
+        <!-- الأيام على الجانب الأيسر (بتصميم مطور) -->
+        <div id="days-sidebar" class="w-full md:w-1/3 bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 mb-8 md:mb-0 relative z-10">
+            <p class="text-3xl font-bold text-gray-100 mb-4">أيام الأسبوع</p>
+            <p id="day-السبت" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">السبت</p>
+            <p id="day-الأحد" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الأحد</p>
+            <p id="day-الإثنين" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الإثنين</p>
+            <p id="day-الثلاثاء" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الثلاثاء</p>
+            <p id="day-الأربعاء" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الأربعاء</p>
+            <p id="day-الخميس" class="day-item text-xl font-medium text-orange-400 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-orange-300 hover:bg-gray-600">الخميس</p>
+            <p id="day-الجمعة" class="day-item text-xl font-medium text-red-400 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-red-300 hover:bg-gray-600">الجمعة</p>
+        </div>
+
+        <!-- محتوى رقم الأسبوع والوقت المخصص (الدوائر فوق بعضهما) -->
+        <div class="flex-1 flex flex-col items-center justify-center space-y-8 relative z-10 w-full md:w-2/3">
+            <!-- قسم رقم الأسبوع داخل دائرة -->
+            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
+                <p class="text-3xl font-semibold text-gray-100 mb-3">رقم الأسبوع</p>
+                <div class="w-48 h-48 bg-blue-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-blue-500">
+                    <p id="week-number" class="text-5xl font-extrabold text-white">--</p>
+                </div>
+            </div>
+
+            <!-- قسم الوقت المخصص داخل دائرة -->
+            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
+                <p class="text-3xl font-semibold text-gray-100 mb-3">الوقت المخصص</p>
+                <div class="w-48 h-48 bg-purple-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-purple-500">
+                    <p id="custom-time" class="text-5xl font-extrabold text-white">--:--</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // دالة لحساب رقم الأسبوع بناءً على أن السبت هو بداية الأسبوع
+        function getWeekNumber(date) {
+            const currentYear = date.getFullYear();
+            const jan1 = new Date(currentYear, 0, 1); // 1 يناير من السنة الحالية
+            let firstSaturday = new Date(jan1);
+
+            // البحث عن أول يوم سبت في السنة أو بعدها
+            // (0=الأحد, 1=الإثنين, ..., 6=السبت)
+            while (firstSaturday.getDay() !== 6) { // 6 يمثل السبت
+                firstSaturday.setDate(firstSaturday.getDate() + 1);
+            }
+
+            // حساب الفرق بالأيام بين التاريخ الحالي وأول سبت
+            const diffTime = date.getTime() - firstSaturday.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            // إذا كان التاريخ الحالي قبل أول سبت في السنة، فهو الأسبوع الأول
+            if (diffDays < 0) {
+                return 1;
+            } else {
+                // عدد الأسابيع الكاملة التي مرت + 1 للأسبوع الحالي
+                return Math.floor(diffDays / 7) + 1;
+            }
+        }
+
+        // دالة لتحديث عرض الوقت ورقم الأسبوع والأيام
+        function updateDisplay() {
+            const now = new Date();
+
+            // تحديث رقم الأسبوع
+            const weekNumber = getWeekNumber(now);
+            document.getElementById('week-number').textContent = weekNumber;
+
+            // ***** تحديث الوقت المخصص ليبدأ من الشروق *****
+            const SUNRISE_HOUR = 6; // افتراض أن الشروق الساعة 6 صباحًا. يمكنك تغيير هذا الرقم!
+
+            // إنشاء كائن تاريخ لوقت شروق الشمس لهذا اليوم
+            const sunriseToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), SUNRISE_HOUR, 0, 0);
+
+            let standardSecondsSinceSunrise;
+
+            // إذا كان الوقت الحالي قبل شروق الشمس اليوم، فهذا يعني أننا في اليوم المخصص الذي بدأ بالأمس
+            if (now.getTime() < sunriseToday.getTime()) {
+                const sunriseYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, SUNRISE_HOUR, 0, 0);
+                standardSecondsSinceSunrise = (now.getTime() - sunriseYesterday.getTime()) / 1000;
+            } else {
+                // إذا كان الوقت الحالي بعد أو عند شروق الشمس اليوم
+                standardSecondsSinceSunrise = (now.getTime() - sunriseToday.getTime()) / 1000;
+            }
+
+            // إجمالي الثواني في اليوم القياسي (24 ساعة)
+            const totalStandardSecondsInDay = 24 * 60 * 60; // 86400 ثانية قياسية في اليوم
+            // إجمالي الثواني في اليوم المخصص (100 ساعة * 10 دقائق/ساعة * 60 ثانية/دقيقة)
+            const totalCustomSecondsInDay = 100 * 10 * 60; // 60000 ثانية مخصصة في اليوم
+
+            // تحويل الثواني القياسية التي مرت منذ الشروق إلى ثواني مخصصة
+            const customTotalSecondsPassed = (standardSecondsSinceSunrise / totalStandardSecondsInDay) * totalCustomSecondsInDay;
+
+            // حساب الساعات والدقائق المخصصة
+            const customHours = Math.floor(customTotalSecondsPassed / (10 * 60)); // 10 دقائق * 60 ثانية = 600 ثانية مخصصة في الساعة
+            const remainingCustomSeconds = customTotalSecondsPassed % (10 * 60);
+            const customMinutes = Math.floor(remainingCustomSeconds / 60);
+
+            // تنسيق الوقت المخصص ليكون رقمين (مثلاً 05 بدلاً من 5)
+            const formattedCustomHours = String(customHours).padStart(2, '0');
+            const formattedCustomMinutes = String(customMinutes).padStart(2, '0');
+
+            document.getElementById('custom-time').textContent = `${formattedCustomHours}:${formattedCustomMinutes}`;
+
+            // ***** تحديث عرض الأيام *****
+            const daysInOrder = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+            // JavaScript getDay() returns 0 for Sunday, 6 for Saturday
+            let currentDayIndex = now.getDay(); // 0-6 (Sunday-Saturday)
+
+            // Correct logic to map JS getDay() to our ordered array:
+            const jsToMyIndexMap = { 6: 0, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 };
+            const myCurrentDayIndex = jsToMyIndexMap[currentDayIndex];
+            const currentDayName = daysInOrder[myCurrentDayIndex];
+
+
+            document.querySelectorAll('.day-item').forEach(dayElement => {
+                dayElement.classList.remove('current-day', 'bg-emerald-700', 'text-emerald-100'); // Clean previous highlight
+                // Remove specific colors before re-applying to prevent conflicts
+                dayElement.classList.remove('text-blue-300', 'text-orange-400', 'text-red-400', 'hover:text-blue-300', 'hover:text-orange-300', 'hover:text-red-300', 'hover:bg-gray-600');
+                
+                // Reset default text color for non-special days
+                if (dayElement.id !== 'day-الخميس' && dayElement.id !== 'day-الجمعة') {
+                    dayElement.classList.add('text-gray-300');
+                    dayElement.classList.add('hover:text-blue-300', 'hover:bg-gray-600');
+                }
+
+                if (dayElement.id === `day-${currentDayName}`) {
+                    dayElement.classList.add('current-day', 'bg-emerald-700', 'text-emerald-100');
+                    // Ensure hover effects are removed when it's the current day
+                    dayElement.classList.remove('hover:text-blue-300', 'hover:bg-gray-600', 'hover:text-orange-300', 'hover:text-red-300');
+                } else if (dayElement.id === 'day-الخميس') {
+                    dayElement.classList.add('text-orange-400', 'hover:text-orange-300', 'hover:bg-gray-600');
+                } else if (dayElement.id === 'day-الجمعة') {
+                    dayElement.classList.add('text-red-400', 'hover:text-red-300', 'hover:bg-gray-600');
+                }
+            });
+        }
+
+        // تحديث العرض فورًا عند تحميل الصفحة
+        updateDisplay();
+
+        // تحديث العرض كل ثانية
+        setInterval(updateDisplay, 1000);
+    </script>
+</body>
+</html>
