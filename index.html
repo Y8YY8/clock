@@ -82,7 +82,7 @@
         <h1 class="sr-only">رقم الأسبوع والوقت المخصص</h1> 
 
         <!-- الأيام على الجانب الأيسر (بتصميم مطور) -->
-        <div id="days-sidebar" class="w-full md:w-1/3 bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 mb-8 md:mb-0 relative z-10">
+        <div i="days-sidebar" class="w-full md:w-1/3 bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 mb-8 md:mb-0 relative z-10">
             <p class="text-3xl font-bold text-gray-100 mb-4">أيام الأسبوع</p>
             <p id="day-السبت" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">السبت</p>
             <p id="day-الأحد" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الأحد</p>
@@ -93,21 +93,21 @@
             <p id="day-الجمعة" class="day-item text-xl font-medium text-red-400 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-red-300 hover:bg-gray-600">الجمعة</p>
         </div>
 
-        <!-- محتوى رقم الأسبوع والوقت المخصص (الدوائر فوق بعضهما) -->
+        <!-- محتوى رقم الأسبوع والوقت المخصص (الدوائر فوق بعضهما، الترتيب: وقت ثم أسبوع) -->
         <div class="flex-1 flex flex-col items-center justify-center space-y-8 relative z-10 w-full md:w-2/3">
-            <!-- قسم رقم الأسبوع داخل دائرة -->
-            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
-                <p class="text-3xl font-semibold text-gray-100 mb-3">رقم الأسبوع</p>
-                <div class="w-48 h-48 bg-blue-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-blue-500">
-                    <p id="week-number" class="text-5xl font-extrabold text-white">--</p>
-                </div>
-            </div>
-
-            <!-- قسم الوقت المخصص داخل دائرة -->
+            <!-- قسم الوقت المخصص داخل دائرة (تم نقله للأعلى) -->
             <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
                 <p class="text-3xl font-semibold text-gray-100 mb-3">الوقت المخصص</p>
                 <div class="w-48 h-48 bg-purple-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-purple-500">
                     <p id="custom-time" class="text-5xl font-extrabold text-white">--:--</p>
+                </div>
+            </div>
+
+            <!-- قسم رقم الأسبوع داخل دائرة (تم نقله للأسفل) -->
+            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
+                <p class="text-3xl font-semibold text-gray-100 mb-3">رقم الأسبوع</p>
+                <div class="w-48 h-48 bg-blue-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-blue-500">
+                    <p id="week-number" class="text-5xl font-extrabold text-white">--</p>
                 </div>
             </div>
         </div>
