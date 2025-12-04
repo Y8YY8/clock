@@ -1,228 +1,442 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رقم الأسبوع والوقت المخصص</title>
-    <!-- تضمين Tailwind CSS -->
+    <title>لوحة القيادة الملكية - الإصدار الأسود المحدث</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- استيراد خطوط: Cairo للنصوص العربية، و Roboto للأرقام الإنجليزية لضمان وضوحها -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
-        /* تعريف خط Inter */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            direction: rtl; /* لجعل النص يبدأ من اليمين لليسار للعربية */
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
-        /* تحسين animation pulse */
-        @keyframes pulse-improved {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.8;
-                transform: scale(1.02);
-            }
-        }
-        .animate-pulse-improved {
-            animation: pulse-improved 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        /* تعريف الظل المخصص */
-        .shadow-3xl {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-        }
-        .shadow-4xl {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 15px 15px -8px rgba(0, 0, 0, 0.3);
-        }
-        /* ظل داخلي للدوائر */
-        .shadow-inner-lg {
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(255, 255, 255, 0.1);
-        }
-        /* ستايل لليوم الحالي - دائرة */
-        .current-day {
-            position: relative;
-        }
-        .current-day::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120%; /* حجم الدائرة الخارجية */
-            height: 120%; /* حجم الدائرة الخارجية */
-            background-color: rgba(74, 222, 128, 0.2); /* لون أخضر فاتح شفاف */
-            border: 2px solid #4ade80; /* حدود خضراء */
-            border-radius: 9999px; /* دائرة كاملة */
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            animation: pulse-border 2s infinite ease-in-out;
+        /* --- تعريف الألوان --- */
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #F7E7CE;
+            --gold-dark: #8A6E18;
+            --black-bg: #050505;
+            --card-bg: #0F0F0F;
+            --accent-green: #10B981;
         }
 
-        @keyframes pulse-border {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.05);
-                opacity: 0.7;
-            }
+        body {
+            background-color: var(--black-bg);
+            color: #e0e0e0;
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 70%);
+            overflow-x: hidden;
         }
+
+        /* فئة مخصصة للأرقام لتظهر بالإنجليزية دائماً وبوضوح */
+        .en-num {
+            font-family: 'Roboto', sans-serif;
+            direction: ltr; /* اتجاه من اليسار لليمين للأرقام */
+            display: inline-block;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- نصوص ذهبية --- */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 15px rgba(212, 175, 55, 0.15);
+        }
+
+        .text-gold-shine {
+            background: linear-gradient(45deg, #8A6E18, #FFD700, #FFF5D6, #8A6E18);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 6s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* --- البطاقات الفاخرة --- */
+        .luxury-panel {
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08); /* حدود أوضح قليلاً */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .luxury-panel:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 1);
+        }
+
+        /* --- حقول الإدخال --- */
+        .input-style {
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif; /* أرقام إنجليزية في الإدخال */
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        /* --- بطاقات الأيام --- */
+        .day-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .day-card:hover {
+            background: #141414;
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        .day-card.active {
+            background: linear-gradient(to left, rgba(16, 185, 129, 0.08), transparent);
+            border-right: 4px solid var(--accent-green);
+        }
+        .day-card.active .day-name {
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        /* تحسينات عامة للخطوط */
+        h1, h2, h3 { letter-spacing: 0.5px; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-950 min-h-screen flex items-center justify-center p-6">
+<body class="flex flex-col items-center justify-start p-4 sm:p-8">
 
-    <div class="bg-gray-700 bg-opacity-90 backdrop-filter backdrop-blur-md p-10 rounded-3xl shadow-3xl max-w-lg w-full text-center space-y-8 border border-gray-600 transform transition-all duration-500 hover:scale-105 hover:shadow-4xl relative overflow-hidden flex flex-col items-center">
-        <!-- خلفية زخرفية خفيفة داخل البطاقة -->
-        <div class="absolute inset-0 bg-gradient-to-tr from-gray-600 to-transparent opacity-20 transform -rotate-12 scale-150"></div>
-        <div class="absolute inset-0 bg-gradient-to-bl from-gray-600 to-transparent opacity-20 transform rotate-12 scale-150"></div>
+    <!-- الهيدر -->
+    <header class="text-center mb-10 w-full max-w-5xl relative z-10">
+        <!-- إضاءة خلفية خفيفة -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-yellow-600/5 rounded-full blur-[80px] pointer-events-none"></div>
+        
+        <h1 class="text-4xl sm:text-6xl font-bold tracking-wide text-gold-shine pb-4 font-serif">
+            لوحة القيادة الملكية
+        </h1>
+        <div class="inline-flex items-center gap-3 border-y border-gray-800 py-2 px-6">
+            <span class="text-gray-400 text-xs sm:text-sm tracking-widest uppercase en-num">LUXURY SYSTEM</span>
+        </div>
+    </header>
 
-        <h1 class="sr-only">رقم الأسبوع والوقت المخصص</h1> 
+    <!-- قسم الوقت والبيانات -->
+    <section class="w-full max-w-5xl mb-12 relative z-10">
+        <h3 class="text-lg text-gold-primary font-bold mb-5 flex items-center gap-2 px-2 border-r-4 border-gold-primary mr-1">
+            <i class="fa-solid fa-clock"></i>
+            الوقت المخصص (نظام الشروق)
+        </h3>
+        <div class="luxury-panel p-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center items-center">
+            
+            <!-- الساعة -->
+            <div class="md:border-l border-gray-800 order-2 md:order-1">
+                <p class="text-xs text-gray-500 font-bold mb-2">الوقت المخصص (100 ساعة)</p>
+                <!-- استخدام فئة en-num للأرقام الإنجليزية -->
+                <p id="current-time" class="text-6xl sm:text-7xl font-bold text-white en-num tracking-tight">00:00</p>
+                <p class="text-[10px] text-gold-primary mt-2 opacity-80">يبدأ اليوم 06:00 صباحاً</p>
+            </div>
 
-        <!-- محتوى رقم الأسبوع والوقت المخصص (الدوائر فوق بعضهما، الترتيب: وقت ثم أسبوع) -->
-        <div class="flex flex-col items-center justify-center space-y-8 relative z-10 w-full">
-            <!-- قسم الوقت المخصص داخل دائرة -->
-            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
-                <p class="text-3xl font-semibold text-gray-100 mb-3">الوقت المخصص</p>
-                <div class="w-48 h-48 bg-purple-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-purple-500">
-                    <p id="custom-time" class="text-5xl font-extrabold text-white">--:--</p>
+            <!-- التاريخ -->
+            <div class="md:border-l border-gray-800 order-3 md:order-2">
+                <p class="text-xs text-gray-500 font-bold mb-2">التاريخ الميلادي</p>
+                <p id="currentDateDisplay" class="text-3xl font-bold text-gold-light en-num">--/--/----</p>
+                <div class="w-10 h-[1px] bg-gray-800 mx-auto my-3"></div>
+                <p id="currentDayName" class="text-xl text-white font-bold">--</p>
+            </div>
+            
+            <!-- رقم الأسبوع -->
+            <div class="order-1 md:order-3">
+                <p class="text-xs text-gray-500 font-bold mb-3">رقم الأسبوع</p>
+                <div class="relative w-24 h-24 mx-auto flex items-center justify-center border-2 border-dashed border-gray-800 rounded-full">
+                    <p id="week-number" class="text-5xl font-bold text-gold-primary en-num">--</p>
+                </div>
+                <p class="text-[10px] text-gray-600 mt-2">بداية الأسبوع: السبت</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم العملات -->
+    <section class="w-full max-w-5xl mb-12 relative z-10">
+        <div class="luxury-panel p-6 sm:p-10">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-5 mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-gold-primary text-lg"></i>
+                        <span class="text-gold-gradient">أسعار العملات الحية</span>
+                    </h2>
+                </div>
+                <!-- مؤشر التحديث -->
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span class="text-[10px] text-gray-400 font-bold">LIVE DATA</span>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+                <!-- المبلغ -->
+                <div class="md:col-span-5">
+                    <label class="block text-xs text-gray-400 font-bold mb-2 px-1">المبلغ</label>
+                    <div class="relative">
+                        <input type="number" id="amount" value="100" class="input-style w-full text-2xl py-3 px-4 rounded-lg text-left" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- من -->
+                <div class="md:col-span-3">
+                    <label class="block text-xs text-gray-400 font-bold mb-2 px-1">من عملة</label>
+                    <div class="relative">
+                        <select id="fromCurrency" class="input-style w-full text-base py-3 px-4 rounded-lg appearance-none cursor-pointer">
+                            <option value="USD">USD - دولار 🇺🇸</option>
+                            <option value="EUR">EUR - يورو 🇪🇺</option>
+                            <option value="GBP">GBP - إسترليني 🇬🇧</option>
+                            <option value="AED">AED - درهم 🇦🇪</option>
+                            <option value="SAR">SAR - ريال 🇸🇦</option>
+                            <option value="EGP">EGP - جنيه 🇪🇬</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-xs text-gold-primary pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- تبديل -->
+                <div class="md:col-span-1 flex justify-center items-center pb-2">
+                    <button id="swapBtn" class="text-gray-500 hover:text-gold-primary transition-colors duration-300 w-10 h-10 flex items-center justify-center rounded-full border border-gray-800 hover:border-gold-primary bg-[#050505]">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- إلى -->
+                <div class="md:col-span-3">
+                    <label class="block text-xs text-gray-400 font-bold mb-2 px-1">إلى عملة</label>
+                    <div class="relative">
+                        <select id="toCurrency" class="input-style w-full text-base py-3 px-4 rounded-lg appearance-none cursor-pointer">
+                            <option value="EGP">EGP - جنيه 🇪🇬</option>
+                            <option value="USD">USD - دولار 🇺🇸</option>
+                            <option value="EUR">EUR - يورو 🇪🇺</option>
+                            <option value="GBP">GBP - إسترليني 🇬🇧</option>
+                            <option value="AED">AED - درهم 🇦🇪</option>
+                            <option value="SAR">SAR - ريال 🇸🇦</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-xs text-gold-primary pointer-events-none"></i>
+                    </div>
                 </div>
             </div>
 
-            <!-- قسم رقم الأسبوع داخل دائرة -->
-            <div class="bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-transform duration-300 hover:scale-102 flex flex-col items-center justify-center">
-                <p class="text-3xl font-semibold text-gray-100 mb-3">رقم الأسبوع</p>
-                <div class="w-48 h-48 bg-blue-600 rounded-full flex items-center justify-center shadow-inner-lg transform transition-all duration-300 hover:scale-105 hover:bg-blue-500">
-                    <p id="week-number" class="text-5xl font-extrabold text-white">--</p>
+            <!-- النتيجة -->
+            <div class="mt-8 p-6 bg-black rounded-lg border border-gray-800 flex flex-col sm:flex-row justify-between items-center sm:items-end">
+                <div class="text-center sm:text-right mb-4 sm:mb-0">
+                    <p class="text-[10px] text-gray-500 font-bold mb-1">سعر التحويل (Live)</p>
+                    <p class="text-base text-gold-primary en-num font-bold" id="rateInfo">---</p>
+                </div>
+                
+                <div class="text-right">
+                    <p class="text-4xl sm:text-5xl text-white font-bold en-num" id="resultText">---</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- الأيام في الأسفل (بتصميم مطور) -->
-        <div id="days-sidebar" class="w-full bg-gray-800 bg-opacity-70 p-6 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 mt-8 relative z-10">
-            <p class="text-3xl font-bold text-gray-100 mb-4">أيام الأسبوع</p>
-            <p id="day-السبت" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">السبت</p>
-            <p id="day-الأحد" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الأحد</p>
-            <p id="day-الإثنين" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الإثنين</p>
-            <p id="day-الثلاثاء" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الثلاثاء</p>
-            <p id="day-الأربعاء" class="day-item text-xl font-medium text-gray-300 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-blue-300 hover:bg-gray-600">الأربعاء</p>
-            <p id="day-الخميس" class="day-item text-xl font-medium text-orange-400 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-orange-300 hover:bg-gray-600">الخميس</p>
-            <p id="day-الجمعة" class="day-item text-xl font-medium text-red-400 transition-colors duration-200 py-3 rounded-lg relative overflow-hidden z-10 w-full text-center hover:text-red-300 hover:bg-gray-600">الجمعة</p>
+    <!-- أيام الأسبوع -->
+    <section class="w-full max-w-5xl mb-8 relative z-10">
+        <h3 class="text-lg text-gray-300 font-bold mb-5 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days text-gold-primary"></i>
+            أيام الأسبوع
+        </h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="daysGrid">
+            <!-- سيتم توليد الأيام هنا -->
         </div>
-
-    </div>
+    </section>
 
     <script>
-        // دالة لحساب رقم الأسبوع بناءً على أن السبت هو بداية الأسبوع
+        // --- أسعار العملات المحدثة (ديسمبر 2025) ---
+        // الأساس: 1 دولار أمريكي (USD)
+        const rates = {
+            "USD": 1.0000,
+            "EUR": 0.8569,  // اليورو أقوى من الدولار قليلاً (1 يورو = 1.16 دولار تقريباً)
+            "GBP": 0.7492,  // الاسترليني أقوى (1 استرليني = 1.33 دولار تقريباً)
+            "AED": 3.6725,  // درهم إماراتي (ثابت)
+            "SAR": 3.7537,  // ريال سعودي (ثابت)
+            "EGP": 47.5600  // جنيه مصري (سعر السوق الحالي)
+        };
+
+        const days = [
+            { en: "Saturday", ar: "السبت", icon: "fa-coffee" },
+            { en: "Sunday", ar: "الأحد", icon: "fa-sun" },
+            { en: "Monday", ar: "الإثنين", icon: "fa-briefcase" },
+            { en: "Tuesday", ar: "الثلاثاء", icon: "fa-layer-group" },
+            { en: "Wednesday", ar: "الأربعاء", icon: "fa-chart-line" },
+            { en: "Thursday", ar: "الخميس", icon: "fa-glass-cheers" },
+            { en: "Friday", ar: "الجمعة", icon: "fa-mosque" }
+        ];
+
+        // --- العناصر ---
+        const amountEl = document.getElementById('amount');
+        const fromEl = document.getElementById('fromCurrency');
+        const toEl = document.getElementById('toCurrency');
+        const resultEl = document.getElementById('resultText');
+        const rateInfoEl = document.getElementById('rateInfo');
+        const swapBtn = document.getElementById('swapBtn');
+        const daysGrid = document.getElementById('daysGrid');
+        const dateDisplayEl = document.getElementById('currentDateDisplay');
+        const timeEl = document.getElementById('current-time');
+        const weekNumberEl = document.getElementById('week-number');
+        const currentDayNameEl = document.getElementById('currentDayName');
+
+        // --- تحويل العملات ---
+        function convertCurrency() {
+            const amount = parseFloat(amountEl.value) || 0;
+            const fromCode = fromEl.value;
+            const toCode = toEl.value;
+            
+            const fromRate = rates[fromCode];
+            const toRate = rates[toCode];
+            
+            const finalRate = toRate / fromRate;
+            const result = amount * finalRate;
+
+            // تنسيق الرقم بالإنجليزية دائماً
+            const formattedResult = result.toLocaleString('en-US', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+
+            resultEl.innerText = `${formattedResult} ${toCode}`;
+            rateInfoEl.innerText = `1 ${fromCode} = ${finalRate.toFixed(4)} ${toCode}`;
+        }
+
+        function swapCurrencies() {
+            const temp = fromEl.value;
+            fromEl.value = toEl.value;
+            toEl.value = temp;
+            convertCurrency();
+        }
+
+        // --- منطق الوقت والأسابيع (من الملف رقم 3) ---
         function getWeekNumber(date) {
             const currentYear = date.getFullYear();
-            const jan1 = new Date(currentYear, 0, 1); // 1 يناير من السنة الحالية
+            const jan1 = new Date(currentYear, 0, 1);
             let firstSaturday = new Date(jan1);
 
-            // البحث عن أول يوم سبت في السنة أو بعدها
-            // (0=الأحد, 1=الإثنين, ..., 6=السبت)
-            while (firstSaturday.getDay() !== 6) { // 6 يمثل السبت
+            // البحث عن أول سبت في السنة
+            while (firstSaturday.getDay() !== 6) {
                 firstSaturday.setDate(firstSaturday.getDate() + 1);
             }
 
-            // حساب الفرق بالأيام بين التاريخ الحالي وأول سبت
             const diffTime = date.getTime() - firstSaturday.getTime();
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-            // إذا كان التاريخ الحالي قبل أول سبت في السنة، فهو الأسبوع الأول
             if (diffDays < 0) {
                 return 1;
             } else {
-                // عدد الأسابيع الكاملة التي مرت + 1 للأسبوع الحالي
                 return Math.floor(diffDays / 7) + 1;
             }
         }
 
-        // دالة لتحديث عرض الوقت ورقم الأسبوع والأيام
-        function updateDisplay() {
+        function updateTimeAndDate() {
             const now = new Date();
-
-            // تحديث رقم الأسبوع
-            const weekNumber = getWeekNumber(now);
-            document.getElementById('week-number').textContent = weekNumber;
-
-            // ***** تحديث الوقت المخصص ليبدأ من الشروق *****
-            const SUNRISE_HOUR = 6; // افتراض أن الشروق الساعة 6 صباحًا. يمكنك تغيير هذا الرقم!
-
-            // إنشاء كائن تاريخ لوقت شروق الشمس لهذا اليوم
+            
+            // 1. حساب الوقت المخصص (نظام الشروق)
+            const SUNRISE_HOUR = 6;
             const sunriseToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), SUNRISE_HOUR, 0, 0);
-
             let standardSecondsSinceSunrise;
 
-            // إذا كان الوقت الحالي قبل شروق الشمس اليوم، فهذا يعني أننا في اليوم المخصص الذي بدأ بالأمس
             if (now.getTime() < sunriseToday.getTime()) {
                 const sunriseYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, SUNRISE_HOUR, 0, 0);
                 standardSecondsSinceSunrise = (now.getTime() - sunriseYesterday.getTime()) / 1000;
             } else {
-                // إذا كان الوقت الحالي بعد أو عند شروق الشمس اليوم
                 standardSecondsSinceSunrise = (now.getTime() - sunriseToday.getTime()) / 1000;
             }
 
-            // إجمالي الثواني في اليوم القياسي (24 ساعة)
-            const totalStandardSecondsInDay = 24 * 60 * 60; // 86400 ثانية قياسية في اليوم
-            // إجمالي الثواني في اليوم المخصص (100 ساعة * 10 دقائق/ساعة * 60 ثانية/دقيقة)
-            const totalCustomSecondsInDay = 100 * 10 * 60; // 60000 ثانية مخصصة في اليوم
+            const totalStandardSecondsInDay = 24 * 60 * 60;
+            const totalCustomSecondsInDay = 100 * 10 * 60; // 60,000 دقيقة مخصصة
 
-            // تحويل الثواني القياسية التي مرت منذ الشروق إلى ثواني مخصصة
             const customTotalSecondsPassed = (standardSecondsSinceSunrise / totalStandardSecondsInDay) * totalCustomSecondsInDay;
 
-            // حساب الساعات والدقائق المخصصة
-            const customHours = Math.floor(customTotalSecondsPassed / (10 * 60)); // 10 دقائق * 60 ثانية = 600 ثانية مخصصة في الساعة
+            const customHours = Math.floor(customTotalSecondsPassed / (10 * 60));
             const remainingCustomSeconds = customTotalSecondsPassed % (10 * 60);
             const customMinutes = Math.floor(remainingCustomSeconds / 60);
 
-            // تنسيق الوقت المخصص ليكون رقمين (مثلاً 05 بدلاً من 5)
+            // إجبار الأرقام الإنجليزية
             const formattedCustomHours = String(customHours).padStart(2, '0');
             const formattedCustomMinutes = String(customMinutes).padStart(2, '0');
 
-            document.getElementById('custom-time').textContent = `${formattedCustomHours}:${formattedCustomMinutes}`;
+            timeEl.innerText = `${formattedCustomHours}:${formattedCustomMinutes}`;
 
-            // ***** تحديث عرض الأيام *****
-            const daysInOrder = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
-            // JavaScript getDay() returns 0 for Sunday, 6 for Saturday
-            let currentDayIndex = now.getDay(); // 0-6 (Sunday-Saturday)
+            // 2. تحديث التاريخ (أرقام فقط - تنسيق إنجليزي DD/MM/YYYY)
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // الأشهر 0-11
+            const year = now.getFullYear();
+            dateDisplayEl.innerText = `${day}/${month}/${year}`;
+            
+            // 3. تحديث رقم الأسبوع
+            const currentWeek = getWeekNumber(now);
+            weekNumberEl.innerText = currentWeek;
 
-            // Correct logic to map JS getDay() to our ordered array:
-            const jsToMyIndexMap = { 6: 0, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 };
-            const myCurrentDayIndex = jsToMyIndexMap[currentDayIndex];
-            const currentDayName = daysInOrder[myCurrentDayIndex];
+            // 4. تحديث اسم اليوم
+            const dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const currentDayAr = dayNames[now.getDay()];
+            currentDayNameEl.innerText = currentDayAr;
+        }
 
-
-            document.querySelectorAll('.day-item').forEach(dayElement => {
-                dayElement.classList.remove('current-day', 'bg-emerald-700', 'text-emerald-100'); // Clean previous highlight
-                // Remove specific colors before re-applying to prevent conflicts
-                dayElement.classList.remove('text-blue-300', 'text-orange-400', 'text-red-400', 'hover:text-blue-300', 'hover:text-orange-300', 'hover:text-red-300', 'hover:bg-gray-600');
+        // --- عرض الأيام ---
+        function renderDays() {
+            const todayIndexJS = new Date().getDay(); 
+            const dayMap = {
+                0: "الأحد", 1: "الإثنين", 2: "الثلاثاء", 3: "الأربعاء", 
+                4: "الخميس", 5: "الجمعة", 6: "السبت"
+            };
+            const todayNameAr = dayMap[todayIndexJS];
+            
+            daysGrid.innerHTML = '';
+            
+            days.forEach((day) => {
+                const isActive = day.ar === todayNameAr;
+                const activeClass = isActive ? 'active' : 'bg-transparent';
+                const textClass = isActive ? 'text-white font-bold' : 'text-gray-500 font-medium';
                 
-                // Reset default text color for non-special days
-                if (dayElement.id !== 'day-الخميس' && dayElement.id !== 'day-الجمعة') {
-                    dayElement.classList.add('text-gray-300');
-                    dayElement.classList.add('hover:text-blue-300', 'hover:bg-gray-600');
-                }
-
-                if (dayElement.id === `day-${currentDayName}`) {
-                    dayElement.classList.add('current-day', 'bg-emerald-700', 'text-emerald-100');
-                    // Ensure hover effects are removed when it's the current day
-                    dayElement.classList.remove('hover:text-blue-300', 'hover:bg-gray-600', 'hover:text-orange-300', 'hover:text-red-300');
-                } else if (dayElement.id === 'day-الخميس') {
-                    dayElement.classList.add('text-orange-400', 'hover:text-orange-300', 'hover:bg-gray-600');
-                } else if (dayElement.id === 'day-الجمعة') {
-                    dayElement.classList.add('text-red-400', 'hover:text-red-300', 'hover:bg-gray-600');
-                }
+                const card = `
+                    <div class="day-card p-5 rounded-xl flex items-center justify-between cursor-default ${activeClass}">
+                        <div class="flex flex-col">
+                            <span class="text-lg ${textClass} day-name mb-1">${day.ar}</span>
+                            <span class="text-[10px] text-gray-600 font-bold tracking-widest uppercase en-num">${day.en}</span>
+                        </div>
+                        <div class="h-9 w-9 rounded-full bg-[#050505] flex items-center justify-center border border-gray-900 shadow-sm">
+                            <i class="fa-solid ${day.icon} ${isActive ? 'text-[#10B981]' : 'text-gray-700'} text-sm"></i>
+                        </div>
+                    </div>
+                `;
+                daysGrid.innerHTML += card;
             });
         }
 
-        // تحديث العرض فورًا عند تحميل الصفحة
-        updateDisplay();
+        // --- التهيئة ---
+        amountEl.addEventListener('input', convertCurrency);
+        fromEl.addEventListener('change', convertCurrency);
+        toEl.addEventListener('change', convertCurrency);
+        swapBtn.addEventListener('click', swapCurrencies);
 
-        // تحديث العرض كل ثانية
-        setInterval(updateDisplay, 1000);
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDays();
+            convertCurrency();
+            updateTimeAndDate();
+            setInterval(updateTimeAndDate, 1000);
+        });
+
     </script>
 </body>
 </html>
+
+
