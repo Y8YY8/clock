@@ -3,469 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة القيادة الملكية - الإصدار المتفاعل</title>
+    <title>لوحة القيادة الملكية - تحديث مباشر</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-gold': '#D4AF37',
+                        'royal-gold-light': '#F9E4B7',
+                        'royal-black': '#050505',
+                        'glass-bg': 'rgba(15, 15, 15, 0.9)',
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* --- المتغيرات اللونية --- */
         :root {
             --gold-primary: #D4AF37;
-            --gold-light: #F9E4B7;
-            --gold-dim: #AA8C2C;
-            --bg-deep: #020202;
-            --glass-bg: rgba(20, 20, 20, 0.75); /* زيادة التعتيم قليلاً للوضوح */
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-green: #059669;
         }
 
         body {
-            background-color: var(--bg-deep);
+            background-color: #020202;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
             color: #ececec;
             font-family: 'Cairo', sans-serif;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 35%),
-                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.04) 0%, transparent 35%);
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* تنسيق الأرقام الإنجليزية */
-        .en-num {
-            font-family: 'Roboto', sans-serif;
-            direction: ltr;
-            display: inline-block;
-        }
+        .en-num { font-family: 'Roboto Mono', monospace; direction: ltr; }
 
-        .serif-font {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* --- تأثيرات النصوص الذهبية --- */
-        .text-gold-gradient {
-            background: linear-gradient(to bottom, #F7E7CE, #D4AF37, #8A6E18);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* --- البطاقات الزجاجية الفاخرة --- */
+        /* Luxury Cards */
         .luxury-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
-
-        /* تفاعلية ناعمة عند التحويم */
         .luxury-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.25);
-            box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.7);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 32px -1px rgba(0, 0, 0, 0.6);
         }
 
-        /* --- حقول الإدخال المحسنة --- */
-        .input-premium {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        .input-premium:focus {
-            outline: none;
-            border-color: var(--gold-primary);
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-            transform: scale(1.01); /* تفاعل بسيط جداً */
-        }
-
-        select.input-premium {
-            appearance: none;
-            background-image: none;
-        }
-
-        /* --- بطاقات الأيام (تصميم كلاسيكي محدث) --- */
-        .day-card-classic {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+        /* Timeline Item */
+        .timeline-item {
             position: relative;
-            overflow: hidden;
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+            padding-right: 24px;
+            padding-bottom: 32px;
         }
-        
-        .day-card-classic:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(212, 175, 55, 0.2);
-            transform: translateY(-3px);
+        .timeline-item:last-child { border-right: transparent; padding-bottom: 0; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #222;
+            border: 2px solid #555;
+            transition: all 0.3s ease;
+        }
+        .timeline-item.work::before { background: #D4AF37; border-color: #D4AF37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .timeline-item.break::before { background: #10b981; border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+
+        /* Inputs */
+        .input-royal {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            transition: all 0.2s;
+        }
+        .input-royal:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
         }
 
-        .day-card-classic.active {
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
-            border-right: 4px solid var(--gold-primary);
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-        
-        .day-card-classic.active .day-name-ar {
-            color: var(--gold-primary);
-            font-weight: 700;
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
 
-        .day-card-classic.active .day-icon-box {
-            color: #000;
-            background: var(--gold-primary);
-            box-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        /* منع نزول النص لسطر جديد */
-        .no-wrap-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .tab-btn.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: #D4AF37;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-start py-8 px-4 sm:px-6">
+<body class="flex flex-col">
 
-    <!-- خلفية زخرفية علوية -->
-    <div class="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#0a0a0a] to-transparent -z-10 opacity-70"></div>
-
-    <!-- الهيدر -->
-    <header class="text-center mb-12 w-full max-w-4xl relative z-10 hover:scale-[1.01] transition-transform duration-700">
-        <div class="inline-block relative">
-            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-20 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-80"></div>
-            
-            <h1 class="text-4xl md:text-6xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-b from-[#F9E4B7] via-[#D4AF37] to-[#8A6E18] drop-shadow-lg pb-3">
-                لوحة القيادة الملكية
-            </h1>
-            
-            <div class="flex items-center justify-center gap-4 mt-2 opacity-80">
-                <div class="h-[1px] w-8 bg-gray-700"></div>
-                <span class="text-gray-400 text-[10px] md:text-xs tracking-[0.25em] uppercase en-num font-medium">Interactive Luxury System</span>
-                <div class="h-[1px] w-8 bg-gray-700"></div>
+    <!-- Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="luxury-card w-full max-w-lg mx-4 rounded-2xl p-6 relative transform scale-95 transition-transform duration-300" id="modalContent">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="flex items-center gap-4 mb-6">
+                <div id="modalIconBox" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-gray-800 text-white"></div>
+                <div>
+                    <h3 id="modalTitle" class="text-xl font-bold text-white"></h3>
+                    <span id="modalTime" class="text-xs text-[#D4AF37] font-mono border border-[#D4AF37]/30 px-2 py-0.5 rounded"></span>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-xs text-gray-500 font-bold mb-1">المهمة الرئيسية</p>
+                    <p id="modalMission" class="text-sm text-gray-200 leading-relaxed"></p>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5">
+                    <p class="text-xs text-gray-500 font-bold mb-1">علم النفس والاستراتيجية</p>
+                    <p id="modalPsych" class="text-sm text-gray-200 leading-relaxed"></p>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Header -->
+    <header class="py-6 text-center border-b border-white/5 bg-black/50 backdrop-blur-sm sticky top-0 z-40">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9E4B7]">
+            لوحة القيادة الملكية
+        </h1>
+        <p class="text-[10px] text-gray-500 tracking-[0.3em] uppercase mt-1">V4 System • Live Data</p>
     </header>
 
-    <!-- قسم الوقت والبيانات -->
-    <section class="w-full max-w-5xl mb-10 relative z-10">
-        <div class="luxury-card rounded-[2rem] p-1">
-            <div class="bg-black/30 rounded-[1.9rem] p-6 md:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                
-                <!-- الساعة -->
-                <div class="md:col-span-5 text-center md:text-right md:pr-4 border-b md:border-b-0 md:border-l border-gray-800 pb-8 md:pb-0 md:pl-8 group cursor-default">
-                    <div class="flex items-center gap-3 justify-center md:justify-start mb-2 text-[#D4AF37] group-hover:text-[#F9E4B7] transition-colors">
-                        <i class="fa-regular fa-clock text-lg"></i>
-                        <span class="text-sm font-bold tracking-wide">التوقيت المخصص</span>
+    <!-- Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-4 space-y-6">
+            
+            <!-- Custom Time -->
+            <div class="luxury-card rounded-3xl p-6 text-center relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#D4AF37] opacity-10 blur-3xl rounded-full"></div>
+                <div class="flex items-center justify-center gap-2 mb-2 text-[#D4AF37]">
+                    <i class="fa-solid fa-hourglass-half animate-pulse-slow"></i>
+                    <span class="text-[10px] font-bold tracking-widest uppercase">التوقيت المخصص</span>
+                </div>
+                <div class="py-2">
+                    <p id="custom-time" class="text-6xl font-black text-white en-num tracking-tighter">00:00</p>
+                </div>
+                <div class="flex justify-between items-center px-4 mt-4 pt-4 border-t border-white/5 text-xs text-gray-400">
+                    <span id="currentDay">--</span>
+                    <span id="currentDate" class="en-num">--</span>
+                </div>
+            </div>
+
+            <!-- Currency Converter (Live API) -->
+            <div class="luxury-card rounded-3xl p-6 relative">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-sm font-bold text-gray-200 flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-[#D4AF37]"></i> الخزينة
+                    </h3>
+                    <div id="apiStatus" class="flex items-center gap-1.5 text-[10px]">
+                        <span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span> جاري التحميل...
                     </div>
-                    <div class="relative inline-block">
-                        <p id="current-time" class="text-7xl md:text-8xl font-black text-white en-num tracking-tighter leading-none drop-shadow-2xl transition-all duration-300 group-hover:scale-105">00:00</p>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-3 font-medium">نظام 100 ساعة • يبدأ العد من الشروق</p>
                 </div>
 
-                <!-- التاريخ -->
-                <div class="md:col-span-4 text-center md:text-right space-y-5">
-                    <div class="group">
-                        <p class="text-[10px] uppercase tracking-wider text-gray-500 mb-1 group-hover:text-[#D4AF37] transition-colors">Date</p>
-                        <p id="currentDateDisplay" class="text-3xl text-gray-200 font-bold en-num transition-transform duration-300 group-hover:translate-x-[-5px]">--/--/----</p>
+                <div class="space-y-3">
+                    <div class="relative">
+                        <input type="number" id="amount" value="1" class="input-royal w-full p-3 pl-12 rounded-xl font-bold en-num text-lg" placeholder="0.00">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold">المبلغ</span>
                     </div>
-                    <div class="group">
-                        <p class="text-[10px] uppercase tracking-wider text-gray-500 mb-1 group-hover:text-[#D4AF37] transition-colors">Day</p>
-                        <p id="currentDayName" class="text-2xl text-[#D4AF37] font-bold transition-transform duration-300 group-hover:translate-x-[-5px]">--</p>
-                    </div>
-                </div>
 
-                <!-- الأسبوع -->
-                <div class="md:col-span-3 flex flex-col items-center justify-center">
-                    <div class="relative w-28 h-28 rounded-full border-4 border-[#1a1a1a] flex items-center justify-center shadow-2xl bg-[#080808] group hover:border-[#D4AF37]/30 transition-colors duration-500">
-                        <div class="absolute inset-0 rounded-full border-t-2 border-[#D4AF37] opacity-60 animate-[spin_8s_linear_infinite]"></div>
-                        <div class="text-center z-10">
-                            <span class="block text-[10px] text-gray-600 font-bold uppercase mb-1 group-hover:text-white transition-colors">Week</span>
-                            <span id="week-number" class="text-4xl font-black text-white en-num group-hover:scale-110 transition-transform block">--</span>
-                        </div>
+                    <div class="flex gap-2">
+                        <select id="fromCurrency" class="input-royal w-full p-2 rounded-xl text-sm font-bold en-num cursor-pointer">
+                            <option value="USD">USD - دولار</option>
+                            <option value="EUR">EUR - يورو</option>
+                            <option value="GBP">GBP - استرليني</option>
+                            <option value="SAR">SAR - ريال</option>
+                            <option value="AED">AED - درهم</option>
+                            <option value="EGP">EGP - جنيه</option>
+                        </select>
+                        <button id="swapBtn" class="w-10 flex-shrink-0 bg-[#D4AF37]/10 hover:bg-[#D4AF37] text-[#D4AF37] hover:text-black rounded-xl flex items-center justify-center transition-colors">
+                            <i class="fa-solid fa-repeat"></i>
+                        </button>
+                        <select id="toCurrency" class="input-royal w-full p-2 rounded-xl text-sm font-bold en-num cursor-pointer">
+                            <option value="EGP">EGP - جنيه</option>
+                            <option value="USD">USD - دولار</option>
+                            <option value="EUR">EUR - يورو</option>
+                            <option value="SAR">SAR - ريال</option>
+                            <option value="AED">AED - درهم</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-[#111] rounded-xl p-4 text-center border border-white/5 mt-2">
+                        <p id="conversionResult" class="text-3xl font-black text-[#D4AF37] en-num">0.00</p>
+                        <p id="rateInfo" class="text-[10px] text-gray-500 mt-1 en-num">Updating rates...</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="switchTab('daily')" id="btn-daily" class="tab-btn active p-4 rounded-xl font-bold text-sm transition-all bg-[#111]">
+                    <i class="fa-solid fa-bolt mb-2 text-lg block"></i> المهام اليومية
+                </button>
+                <button onclick="switchTab('weekly')" id="btn-weekly" class="tab-btn p-4 rounded-xl font-bold text-sm transition-all bg-[#111] text-gray-500">
+                    <i class="fa-solid fa-calendar-week mb-2 text-lg block"></i> الخطة الأسبوعية
+                </button>
             </div>
         </div>
-    </section>
 
-    <!-- قسم العملات -->
-    <section class="w-full max-w-5xl mb-12 relative z-10">
-        <div class="luxury-card rounded-[2rem] p-8 md:p-12 overflow-visible">
+        <!-- Main Workspace -->
+        <div class="lg:col-span-8">
             
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 pb-6 border-b border-gray-800/50">
-                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37]">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                    </div>
-                    <span class="text-gold-gradient">محول العملات المباشر</span>
-                </h2>
-                <!-- تم حذف كلمة Live Market -->
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-11 gap-6 items-start">
-                
-                <!-- المجموعة الأولى -->
-                <div class="lg:col-span-5 space-y-6">
-                    <div>
-                        <label class="block text-xs text-gray-400 font-bold mb-3 px-1 transition-colors hover:text-[#D4AF37]">المبلغ المراد تحويله</label>
-                        <div class="relative group">
-                            <input type="number" id="amount" value="100" class="input-premium w-full text-3xl py-5 px-6 rounded-2xl text-left font-bold" placeholder="0.00">
-                            <span class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-[#D4AF37] transition-colors text-sm font-serif">Amount</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-gray-400 font-bold mb-3 px-1">من عملة</label>
-                        <div class="relative hover:scale-[1.01] transition-transform">
-                            <select id="fromCurrency" class="input-premium w-full text-lg py-4 pl-6 pr-12 rounded-2xl cursor-pointer font-medium appearance-none">
-                                <option value="USD">🇺🇸 USD - دولار أمريكي</option>
-                                <option value="EUR">🇪🇺 EUR - يورو أوروبي</option>
-                                <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
-                                <option value="AED">🇦🇪 AED - درهم إماراتي</option>
-                                <option value="SAR">🇸🇦 SAR - ريال سعودي</option>
-                                <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
-                            </select>
-                            <div class="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#D4AF37]">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Daily Plan -->
+            <div id="view-daily" class="luxury-card rounded-[2.5rem] p-8 min-h-[600px]">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-list-check text-[#D4AF37] ml-2"></i> جدول اليوم</h2>
+                    <span class="text-xs bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full border border-[#D4AF37]/20">Flow State</span>
                 </div>
+                <div id="timelineContainer" class="pl-2">
+                    <!-- JS Injected -->
+                </div>
+            </div>
 
-                <!-- زر التبديل -->
-                <div class="lg:col-span-1 flex justify-center lg:pt-24 pt-4 pb-4 lg:pb-0">
-                    <button id="swapBtn" class="group relative w-14 h-14 rounded-full bg-[#151515] border border-gray-700 hover:border-[#D4AF37] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#D4AF37]/20 active:scale-90">
-                        <i class="fa-solid fa-arrow-right-arrow-left text-gray-400 group-hover:text-[#D4AF37] transition-colors group-hover:rotate-180 duration-500"></i>
+            <!-- Weekly Plan -->
+            <div id="view-weekly" class="luxury-card rounded-[2.5rem] p-8 min-h-[600px] hidden">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-calendar-days text-[#D4AF37] ml-2"></i> الخطة الأسبوعية</h2>
+                    <button onclick="saveWeek()" class="text-xs bg-green-500/10 text-green-500 px-4 py-2 rounded-full hover:bg-green-500 hover:text-white transition-all">
+                        <i class="fa-solid fa-save"></i> حفظ التغييرات
                     </button>
                 </div>
-
-                <!-- المجموعة الثانية -->
-                <div class="lg:col-span-5 flex flex-col h-full justify-between space-y-6">
-                     <div>
-                        <label class="block text-xs text-gray-400 font-bold mb-3 px-1">إلى عملة</label>
-                        <div class="relative hover:scale-[1.01] transition-transform">
-                            <select id="toCurrency" class="input-premium w-full text-lg py-4 pl-6 pr-12 rounded-2xl cursor-pointer font-medium appearance-none">
-                                <option value="EGP">🇪🇬 EGP - جنيه مصري</option>
-                                <option value="USD">🇺🇸 USD - دولار أمريكي</option>
-                                <option value="EUR">🇪🇺 EUR - يورو أوروبي</option>
-                                <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
-                                <option value="AED">🇦🇪 AED - درهم إماراتي</option>
-                                <option value="SAR">🇸🇦 SAR - ريال سعودي</option>
-                            </select>
-                            <div class="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#D4AF37]">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- صندوق النتيجة -->
-                    <div class="bg-gradient-to-br from-[#111] to-[#0a0a0a] rounded-2xl p-6 border border-gray-800 flex flex-col justify-center min-h-[140px] relative overflow-hidden group hover:border-[#D4AF37]/30 transition-colors">
-                        <!-- تأثير إضاءة -->
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#D4AF37] opacity-[0.03] blur-[60px] rounded-full pointer-events-none group-hover:opacity-[0.06] transition-opacity"></div>
-                        
-                        <p class="text-xs text-gray-500 font-bold mb-2 flex justify-between relative z-10">
-                            <span>النتيجة المقدرة</span>
-                            <span id="rateInfo" class="text-[#D4AF37] en-num opacity-80">--</span>
-                        </p>
-                        <!-- تم ضبط حجم الخط وإضافة no-wrap-text لمنع النزول لسطر جديد -->
-                        <div class="w-full overflow-hidden relative z-10" title="Result">
-                            <p id="resultText" class="text-3xl sm:text-4xl font-black text-white en-num tracking-tight no-wrap-text py-1">0.00</p>
-                        </div>
-                    </div>
+                <div id="weekGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- JS Injected -->
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- أيام الأسبوع (العودة للتصميم السابق مع وضوح وتفاعل) -->
-    <section class="w-full max-w-5xl mb-8 relative z-10">
-        <h3 class="text-lg text-gray-400 font-bold mb-6 flex items-center gap-3 pr-2">
-            <span class="w-1.5 h-6 bg-[#D4AF37] rounded-full shadow-[0_0_10px_#D4AF37]"></span>
-            أيام الأسبوع
-        </h3>
-        
-        <!-- Grid System as requested: Closer to V1 style (grid-cols-2 lg:grid-cols-4) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="daysGrid">
-            <!-- سيتم توليد الأيام هنا -->
         </div>
-    </section>
-
-    <!-- تم حذف جملة الحقوق كما طلبت -->
+    </main>
 
     <script>
-        const rates = {
-            "USD": 1.0000,
-            "EUR": 0.8569,
-            "GBP": 0.7492,
-            "AED": 3.6725,
-            "SAR": 3.7537,
-            "EGP": 47.5600
-        };
-
-        // المصفوفة تحتوي على الأسماء الكاملة كما طلبت
-        const days = [
-            { fullEn: "Saturday", ar: "السبت", icon: "fa-coffee" },
-            { fullEn: "Sunday", ar: "الأحد", icon: "fa-sun" },
-            { fullEn: "Monday", ar: "الإثنين", icon: "fa-briefcase" },
-            { fullEn: "Tuesday", ar: "الثلاثاء", icon: "fa-layer-group" },
-            { fullEn: "Wednesday", ar: "الأربعاء", icon: "fa-chart-line" },
-            { fullEn: "Thursday", ar: "الخميس", icon: "fa-glass-cheers" },
-            { fullEn: "Friday", ar: "الجمعة", icon: "fa-mosque" }
+        // --- Data: Schedule (Based on your input) ---
+        const schedule = [
+            { time: "08:00 - 10:00", type: "work", title: "الكتلة (1): قمة الهرم 🎯", mission: "التركيز على أصعب ⛰️ أو أهم مهمة لهذا اليوم. (أكل الضفدع 🐸)", psych: "استغلال ذروة الدوبامين الصباحية." },
+            { time: "10:00 - 11:00", type: "break", title: "فاصل الشحن (1): الإفاقة النشطة 🔋", mission: "تمارين خفيفة، مشي، سناك صحي. (بدون شاشات)", psych: "شحن الدوبامين وتدفق الدم." },
+            { time: "11:00 - 13:00", type: "work", title: "الكتلة (2): بناء الزخم 🏗️", mission: "مهام متوسطة، إيميلات، رسائل.", psych: "مبدأ التحفيز بالتقدم (احتفالات صغيرة 🎉)." },
+            { time: "13:00 - 14:00", type: "break", title: "فاصل الشحن (2): الإمداد والتأمل 🍽️", mission: "غداء صحي، قيلولة Power Nap (20 دقيقة).", psych: "تجديد الطاقة لفترة ما بعد الظهيرة." },
+            { time: "14:00 - 16:00", type: "work", title: "الكتلة (3): العمل الاستراتيجي 🧭", mission: "مراجعة، تحليل، تغيير مكان العمل.", psych: "كسر الملل وتنشيط الإبداع." },
+            { time: "16:00 - 17:00", type: "break", title: "فاصل الشحن (3): الفصل الذهني 🧘", mission: "تأمل، تنفس عميق، شرب ماء.", psych: "الاستعداد لوضع التعلم." },
+            { time: "17:00 - 19:00", type: "work", title: "الكتلة (4): مضخة التطوير 🧠", mission: "تعلم نشط (Coursera, TED). 4 دورات بومودورو.", psych: "الاستثمار في الذات." },
+            { time: "19:00 - 20:00", type: "break", title: "فاصل الشحن (4): استجمام خفيف 😌", mission: "عشاء خفيف، هواية بسيطة.", psych: "مكافأة وتجديد الحماس." },
+            { time: "20:00 - 22:00", type: "work", title: "الكتلة (5): الإنجاز المُلهم 🌟", mission: "مهام إبداعية، تخطيط، كتابة.", psych: "استغلال هدوء المساء (Flow State)." },
+            { time: "22:00 - 00:00", type: "work", title: "الختام: الإغلاق والتجهيز 📝", mission: "مراجعة اليوم، تحديد 3 مهام للغد.", psych: "تقليل قلق النوم وتسهيل انطلاقة الغد." }
         ];
 
-        const amountEl = document.getElementById('amount');
-        const fromEl = document.getElementById('fromCurrency');
-        const toEl = document.getElementById('toCurrency');
-        const resultEl = document.getElementById('resultText');
-        const rateInfoEl = document.getElementById('rateInfo');
-        const swapBtn = document.getElementById('swapBtn');
-        const daysGrid = document.getElementById('daysGrid');
-        const dateDisplayEl = document.getElementById('currentDateDisplay');
-        const timeEl = document.getElementById('current-time');
-        const weekNumberEl = document.getElementById('week-number');
-        const currentDayNameEl = document.getElementById('currentDayName');
+        // --- Data: Week Days ---
+        const days = [
+            { id: "sat", name: "السبت", en: "Saturday" },
+            { id: "sun", name: "الأحد", en: "Sunday" },
+            { id: "mon", name: "الإثنين", en: "Monday" },
+            { id: "tue", name: "الثلاثاء", en: "Tuesday" },
+            { id: "wed", name: "الأربعاء", en: "Wednesday" },
+            { id: "thu", name: "الخميس", en: "Thursday" },
+            { id: "fri", name: "الجمعة", en: "Friday" }
+        ];
 
-        function convertCurrency() {
-            const amount = parseFloat(amountEl.value) || 0;
-            const fromCode = fromEl.value;
-            const toCode = toEl.value;
-            
-            const fromRate = rates[fromCode];
-            const toRate = rates[toCode];
-            
-            const finalRate = toRate / fromRate;
-            const result = amount * finalRate;
-
-            const formattedResult = result.toLocaleString('en-US', { 
-                minimumFractionDigits: 2, 
-                maximumFractionDigits: 2 
-            });
-
-            resultEl.style.opacity = '0.5';
-            setTimeout(() => {
-                resultEl.innerText = `${formattedResult} ${toCode}`;
-                resultEl.style.opacity = '1';
-            }, 100);
-
-            rateInfoEl.innerText = `1 ${fromCode} ≈ ${finalRate.toFixed(4)} ${toCode}`;
-        }
-
-        function swapCurrencies() {
-            const icon = swapBtn.querySelector('i');
-            // حركة دوران عند التبديل
-            icon.style.transform = "rotate(360deg)";
-            setTimeout(() => icon.style.transform = "rotate(0deg)", 500);
-
-            const temp = fromEl.value;
-            fromEl.value = toEl.value;
-            toEl.value = temp;
-            convertCurrency();
-        }
-
-        function getWeekNumber(date) {
-            const currentYear = date.getFullYear();
-            const jan1 = new Date(currentYear, 0, 1);
-            let firstSaturday = new Date(jan1);
-
-            while (firstSaturday.getDay() !== 6) {
-                firstSaturday.setDate(firstSaturday.getDate() + 1);
-            }
-
-            const diffTime = date.getTime() - firstSaturday.getTime();
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays < 0) return 1;
-            return Math.floor(diffDays / 7) + 1;
-        }
-
-        function updateTimeAndDate() {
-            const now = new Date();
-            
-            const SUNRISE_HOUR = 6;
-            const sunriseToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), SUNRISE_HOUR, 0, 0);
-            let standardSecondsSinceSunrise;
-
-            if (now.getTime() < sunriseToday.getTime()) {
-                const sunriseYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, SUNRISE_HOUR, 0, 0);
-                standardSecondsSinceSunrise = (now.getTime() - sunriseYesterday.getTime()) / 1000;
-            } else {
-                standardSecondsSinceSunrise = (now.getTime() - sunriseToday.getTime()) / 1000;
-            }
-
-            const totalStandardSecondsInDay = 24 * 60 * 60;
-            const totalCustomSecondsInDay = 100 * 10 * 60;
-
-            const customTotalSecondsPassed = (standardSecondsSinceSunrise / totalStandardSecondsInDay) * totalCustomSecondsInDay;
-
-            const customHours = Math.floor(customTotalSecondsPassed / (10 * 60));
-            const remainingCustomSeconds = customTotalSecondsPassed % (10 * 60);
-            const customMinutes = Math.floor(remainingCustomSeconds / 60);
-
-            const formattedCustomHours = String(customHours).padStart(2, '0');
-            const formattedCustomMinutes = String(customMinutes).padStart(2, '0');
-
-            timeEl.innerText = `${formattedCustomHours}:${formattedCustomMinutes}`;
-
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            dateDisplayEl.innerText = `${day}/${month}/${year}`;
-            
-            weekNumberEl.innerText = getWeekNumber(now);
-            const dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            currentDayNameEl.innerText = dayNames[now.getDay()];
-        }
-
-        // --- دالة عرض الأيام (تم إعادتها للتصميم السابق الواضح) ---
-        function renderDays() {
-            const todayIndexJS = new Date().getDay(); 
-            const dayMap = {
-                0: "الأحد", 1: "الإثنين", 2: "الثلاثاء", 3: "الأربعاء", 
-                4: "الخميس", 5: "الجمعة", 6: "السبت"
-            };
-            const todayNameAr = dayMap[todayIndexJS];
-            
-            daysGrid.innerHTML = '';
-            
-            days.forEach((day) => {
-                const isActive = day.ar === todayNameAr;
-                const activeClass = isActive ? 'active' : 'opacity-70 hover:opacity-100';
+        // --- Currency Logic (Enhanced) ---
+        // Fallback rates (Updated Dec 2025 Estimations)
+        let rates = { "USD": 1, "EUR": 0.95, "GBP": 0.79, "SAR": 3.75, "AED": 3.67, "EGP": 50.85 };
+        
+        async function fetchRates() {
+            const status = document.getElementById('apiStatus');
+            try {
+                // Using Open Exchange Rates API (Free & Reliable)
+                const res = await fetch('https://open.er-api.com/v6/latest/USD');
+                if(!res.ok) throw new Error("Network");
+                const data = await res.json();
                 
-                // تصميم البطاقة الكلاسيكي الواضح مع لمسة الفخامة
-                // لاحظ استخدام day.fullEn للاسم الكامل بالإنجليزية
-                const card = `
-                    <div class="day-card-classic ${activeClass} rounded-2xl p-5 flex items-center justify-between cursor-default group">
-                        <div class="flex flex-col">
-                            <span class="text-lg font-bold day-name-ar text-gray-200 mb-1 transition-colors">${day.ar}</span>
-                            <span class="text-[10px] text-gray-500 font-bold tracking-widest uppercase en-num transition-colors group-hover:text-gray-300">${day.fullEn}</span>
-                        </div>
-                        <div class="day-icon-box h-10 w-10 rounded-full bg-[#050505] flex items-center justify-center border border-gray-800 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:border-[#D4AF37]/50">
-                            <i class="fa-solid ${day.icon} ${isActive ? '' : 'text-gray-600 group-hover:text-[#D4AF37]'} text-sm"></i>
+                rates = data.rates;
+                // Manual overrides for pegged/specific currencies if API is weird (Optional safety)
+                if(!rates['SAR']) rates['SAR'] = 3.75; 
+                
+                // Update UI
+                const date = new Date(data.time_last_update_utc);
+                status.innerHTML = `<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> متصل (محدث: ${date.getHours()}:${date.getMinutes()})`;
+                status.className = "flex items-center gap-1.5 text-[10px] text-green-500";
+                
+                calcCurrency(); // Recalculate immediately
+            } catch (e) {
+                console.log("Using fallback rates");
+                status.innerHTML = `<span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span> وضع غير متصل (تقديري)`;
+                status.className = "flex items-center gap-1.5 text-[10px] text-yellow-500";
+                calcCurrency();
+            }
+        }
+
+        function calcCurrency() {
+            const amt = parseFloat(document.getElementById('amount').value) || 0;
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+
+            // Base calculation via USD
+            const inUSD = amt / rates[from];
+            const result = inUSD * rates[to];
+
+            document.getElementById('conversionResult').innerText = result.toLocaleString('en-US', {maximumFractionDigits: 2});
+            
+            // Show Rate
+            const rate = (1 / rates[from]) * rates[to];
+            document.getElementById('rateInfo').innerText = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+        }
+
+        // --- Time Logic (100 Unit System) ---
+        function updateTime() {
+            const now = new Date();
+            const daysAr = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+            document.getElementById('currentDay').innerText = daysAr[now.getDay()];
+            document.getElementById('currentDate').innerText = now.toLocaleDateString('en-GB');
+
+            // Sunrise Logic (Fixed at 6 AM as per original system reference)
+            const sunrise = new Date(now);
+            sunrise.setHours(6, 0, 0, 0);
+            if (now < sunrise) sunrise.setDate(sunrise.getDate() - 1);
+            
+            const secondsSinceSunrise = (now - sunrise) / 1000;
+            const totalSecondsDay = 86400;
+            const customDaySeconds = 100 * 10 * 60; // 100 hours * 10 min * 60 sec ?? Or 100 units.
+            // Assuming "100 Units" system where day starts at sunrise.
+            // Let's stick to strict 100-decimal time mapping:
+            // 00:00 (Sunrise) -> 100:00 (Next Sunrise)
+            
+            const percentDay = secondsSinceSunrise / totalSecondsDay;
+            const customVal = percentDay * 100; // 0 to 99.99
+            
+            const major = Math.floor(customVal);
+            const minor = Math.floor((customVal - major) * 100);
+            
+            document.getElementById('custom-time').innerText = 
+                `${String(major).padStart(2,'0')}:${String(minor).padStart(2,'0')}`;
+        }
+
+        // --- Rendering ---
+        function init() {
+            // Timeline
+            const tlContainer = document.getElementById('timelineContainer');
+            let tlHtml = '';
+            schedule.forEach((item, i) => {
+                const colorClass = item.type === 'work' ? 'work text-[#D4AF37]' : 'break text-emerald-400';
+                const bgHover = item.type === 'work' ? 'hover:border-[#D4AF37]/50' : 'hover:border-emerald-500/50';
+                
+                tlHtml += `
+                <div class="timeline-item ${item.type} cursor-pointer group" onclick="openModal(${i})">
+                    <div class="flex items-start gap-4">
+                        <span class="text-[10px] en-num font-mono text-gray-500 mt-1 min-w-[80px]">${item.time}</span>
+                        <div class="flex-grow bg-white/5 p-4 rounded-xl border border-white/5 ${bgHover} transition-all">
+                            <h3 class="font-bold ${colorClass} text-sm mb-1">${item.title}</h3>
+                            <p class="text-xs text-gray-400 line-clamp-1">${item.mission}</p>
                         </div>
                     </div>
-                `;
-                daysGrid.innerHTML += card;
+                </div>`;
             });
+            tlContainer.innerHTML = tlHtml;
+
+            // Week Grid
+            const wkContainer = document.getElementById('weekGrid');
+            let wkHtml = '';
+            days.forEach(d => {
+                wkHtml += `
+                <div class="bg-white/5 border border-white/5 rounded-2xl p-4 hover:border-[#D4AF37]/30 transition-all">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#D4AF37] font-bold text-sm">${d.name}</span>
+                        <span class="text-[10px] text-gray-600 en-num uppercase">${d.en}</span>
+                    </div>
+                    <textarea id="note-${d.id}" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
+                </div>`;
+            });
+            wkContainer.innerHTML = wkHtml;
+
+            // Listeners
+            document.getElementById('amount').addEventListener('input', calcCurrency);
+            document.getElementById('fromCurrency').addEventListener('change', calcCurrency);
+            document.getElementById('toCurrency').addEventListener('change', calcCurrency);
+            document.getElementById('swapBtn').addEventListener('click', () => {
+                const f = document.getElementById('fromCurrency');
+                const t = document.getElementById('toCurrency');
+                const temp = f.value; f.value = t.value; t.value = temp;
+                calcCurrency();
+            });
+
+            // Startups
+            updateTime();
+            setInterval(updateTime, 1000);
+            fetchRates();
+            setInterval(fetchRates, 60000 * 30); // Refresh rates every 30 mins
+            loadWeek();
         }
 
-        amountEl.addEventListener('input', convertCurrency);
-        fromEl.addEventListener('change', convertCurrency);
-        toEl.addEventListener('change', convertCurrency);
-        swapBtn.addEventListener('click', swapCurrencies);
+        // --- Interaction ---
+        function openModal(i) {
+            const item = schedule[i];
+            const m = document.getElementById('detailModal');
+            document.getElementById('modalTitle').innerText = item.title;
+            document.getElementById('modalTime').innerText = item.time;
+            document.getElementById('modalMission').innerText = item.mission;
+            document.getElementById('modalPsych').innerText = item.psych;
+            
+            const iconBox = document.getElementById('modalIconBox');
+            if(item.type === 'work') {
+                iconBox.innerHTML = '<i class="fa-solid fa-fire text-[#D4AF37]"></i>';
+                iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30";
+            } else {
+                iconBox.innerHTML = '<i class="fa-solid fa-mug-hot text-emerald-400"></i>';
+                iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-emerald-500/10 border border-emerald-500/30";
+            }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderDays();
-            convertCurrency();
-            updateTimeAndDate();
-            setInterval(updateTimeAndDate, 1000);
+            m.classList.remove('hidden');
+            setTimeout(() => { m.classList.remove('opacity-0'); document.getElementById('modalContent').classList.remove('scale-95'); }, 10);
+        }
+
+        function closeModal() {
+            const m = document.getElementById('detailModal');
+            m.classList.add('opacity-0');
+            document.getElementById('modalContent').classList.add('scale-95');
+            setTimeout(() => m.classList.add('hidden'), 300);
+        }
+
+        function switchTab(t) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-[#D4AF37]'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('text-gray-500'));
+            
+            document.getElementById(`btn-${t}`).classList.add('active');
+            document.getElementById(`btn-${t}`).classList.remove('text-gray-500');
+            
+            document.getElementById('view-daily').classList.add('hidden');
+            document.getElementById('view-weekly').classList.add('hidden');
+            document.getElementById(`view-${t}`).classList.remove('hidden');
+        }
+
+        function saveWeek() {
+            const data = {};
+            days.forEach(d => data[d.id] = document.getElementById(`note-${d.id}`).value);
+            localStorage.setItem('royalWeek', JSON.stringify(data));
+            const btn = document.querySelector('button[onclick="saveWeek()"]');
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
+            setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-save"></i> حفظ التغييرات', 2000);
+        }
+
+        function loadWeek() {
+            const d = JSON.parse(localStorage.getItem('royalWeek'));
+            if(d) days.forEach(day => { if(d[day.id]) document.getElementById(`note-${day.id}`).value = d[day.id]; });
+        }
+
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if(e.target.id === 'detailModal') closeModal();
         });
 
+        init();
     </script>
 </body>
 </html>
