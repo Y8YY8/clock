@@ -239,10 +239,33 @@
             <div id="view-weekly" class="luxury-card rounded-[2.5rem] p-8 min-h-[600px] hidden">
                 <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
                     <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-calendar-days text-[#D4AF37] ml-2"></i> الخطة الأسبوعية</h2>
-                    <button onclick="saveWeek()" class="text-xs bg-green-500/10 text-green-500 px-4 py-2 rounded-full hover:bg-green-500 hover:text-white transition-all">
-                        <i class="fa-solid fa-save"></i> حفظ التغييرات
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="clearWeek()" class="text-xs bg-red-500/10 text-red-500 px-4 py-2 rounded-full hover:bg-red-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-trash"></i> مسح الكل
+                        </button>
+                        <button onclick="saveWeek()" class="text-xs bg-green-500/10 text-green-500 px-4 py-2 rounded-full hover:bg-green-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-save"></i> حفظ التغييرات
+                        </button>
+                    </div>
                 </div>
+
+                <!-- Cloud Sync Section -->
+                <div class="mb-6 p-4 bg-white/5 rounded-2xl border border-white/5 flex flex-wrap items-center gap-4">
+                    <div class="flex items-center gap-2 text-[#D4AF37]">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span class="text-xs font-bold">المزامنة السحابية</span>
+                    </div>
+                    <input type="text" id="syncIdInput" class="input-royal flex-grow min-w-[200px] p-2 rounded-lg text-xs en-num" placeholder="كود المزامنة (Sync ID)...">
+                    <div class="flex gap-2">
+                        <button onclick="linkSync()" class="text-[10px] bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1.5 rounded-lg hover:bg-[#D4AF37] hover:text-black transition-all">
+                            <i class="fa-solid fa-link"></i> ربط
+                        </button>
+                        <button onclick="createNewSync()" class="text-[10px] bg-white/5 text-gray-400 px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-all">
+                            <i class="fa-solid fa-plus"></i> كود جديد
+                        </button>
+                    </div>
+                </div>
+
                 <div id="weekGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- JS Injected -->
                 </div>
@@ -384,7 +407,7 @@
                         <span class="text-[#D4AF37] font-bold text-sm">${d.name}</span>
                         <span class="text-[10px] text-gray-600 en-num uppercase">${d.en}</span>
                     </div>
-                    <textarea id="note-${d.id}" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
+                    <textarea id="note-${d.id}" oninput="saveWeek(true)" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
                 </div>`;
             });
             wkContainer.innerHTML = wkHtml;
@@ -449,18 +472,124 @@
             document.getElementById(`view-${t}`).classList.remove('hidden');
         }
 
-        function saveWeek() {
+        let syncTimeout = null;
+        function saveWeek(silent = false) {
             const data = {};
-            days.forEach(d => data[d.id] = document.getElementById(`note-${d.id}`).value);
+            days.forEach(d => {
+                const el = document.getElementById(`note-${d.id}`);
+                if (el) data[d.id] = el.value;
+            });
+
             localStorage.setItem('royalWeek', JSON.stringify(data));
-            const btn = document.querySelector('button[onclick="saveWeek()"]');
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
-            setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-save"></i> حفظ التغييرات', 2000);
+
+            // Cloud Sync
+            const syncId = localStorage.getItem('royalSyncId');
+            if (syncId) {
+                clearTimeout(syncTimeout);
+                syncTimeout = setTimeout(async () => {
+                    try {
+                        await fetch(`https://api.npoint.io/bins/${syncId}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                        console.log("Cloud sync successful");
+                    } catch (e) {
+                        console.error("Cloud sync failed", e);
+                    }
+                }, 1000); // Debounce 1s
+            }
+
+            if (!silent) {
+                const btn = document.querySelector('button[onclick="saveWeek()"]');
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
+                    btn.classList.replace('text-green-500', 'text-white');
+                    btn.classList.replace('bg-green-500/10', 'bg-green-500');
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fa-solid fa-save"></i> حفظ التغييرات';
+                        btn.classList.replace('text-white', 'text-green-500');
+                        btn.classList.replace('bg-green-500', 'bg-green-500/10');
+                    }, 2000);
+                }
+            }
         }
 
-        function loadWeek() {
-            const d = JSON.parse(localStorage.getItem('royalWeek'));
-            if(d) days.forEach(day => { if(d[day.id]) document.getElementById(`note-${day.id}`).value = d[day.id]; });
+        async function loadWeek() {
+            // Load from LocalStorage
+            const localData = JSON.parse(localStorage.getItem('royalWeek'));
+            if (localData) {
+                days.forEach(day => {
+                    const el = document.getElementById(`note-${day.id}`);
+                    if (el && localData[day.id]) el.value = localData[day.id];
+                });
+            }
+
+            // Load from Cloud
+            const syncId = localStorage.getItem('royalSyncId');
+            if (syncId) {
+                document.getElementById('syncIdInput').value = syncId;
+                try {
+                    const res = await fetch(`https://api.npoint.io/bins/${syncId}`);
+                    if (res.ok) {
+                        const cloudData = await res.json();
+                        if (cloudData && typeof cloudData === 'object') {
+                            days.forEach(day => {
+                                const el = document.getElementById(`note-${day.id}`);
+                                if (el && cloudData[day.id]) el.value = cloudData[day.id];
+                            });
+                            localStorage.setItem('royalWeek', JSON.stringify(cloudData));
+                        }
+                    }
+                } catch (e) {
+                    console.error("Cloud load failed", e);
+                }
+            }
+        }
+
+        async function createNewSync() {
+            const btn = document.querySelector('button[onclick="createNewSync()"]');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...';
+
+            try {
+                const res = await fetch('https://api.npoint.io/bins', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ "created": new Date().toISOString() })
+                });
+                const data = await res.json();
+                if (data.binId) {
+                    localStorage.setItem('royalSyncId', data.binId);
+                    document.getElementById('syncIdInput').value = data.binId;
+                    saveWeek(true); // Initial push
+                    alert("تم إنشاء كود جديد! يرجى حفظه للمزامنة: " + data.binId);
+                }
+            } catch (e) {
+                alert("فشل إنشاء الكود. حاول مرة أخرى.");
+            }
+            btn.innerHTML = '<i class="fa-solid fa-plus"></i> كود جديد';
+        }
+
+        function linkSync() {
+            const syncId = document.getElementById('syncIdInput').value.trim();
+            if (syncId) {
+                localStorage.setItem('royalSyncId', syncId);
+                loadWeek();
+                alert("تم ربط السحاب بنجاح!");
+            } else {
+                alert("يرجى إدخال كود مزامنة صحيح.");
+            }
+        }
+
+        function clearWeek() {
+            if (confirm("هل أنت متأكد من حذف جميع المهام الأسبوعية؟ لا يمكن التراجع عن هذا الإجراء.")) {
+                days.forEach(d => {
+                    const el = document.getElementById(`note-${d.id}`);
+                    if (el) el.value = "";
+                });
+                saveWeek();
+                alert("تم حذف جميع الملاحظات.");
+            }
         }
 
         document.getElementById('detailModal').addEventListener('click', (e) => {
