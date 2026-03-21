@@ -384,7 +384,7 @@
                         <span class="text-[#D4AF37] font-bold text-sm">${d.name}</span>
                         <span class="text-[10px] text-gray-600 en-num uppercase">${d.en}</span>
                     </div>
-                    <textarea id="note-${d.id}" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
+                    <textarea id="note-${d.id}" oninput="saveWeek(true)" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
                 </div>`;
             });
             wkContainer.innerHTML = wkHtml;
@@ -449,13 +449,19 @@
             document.getElementById(`view-${t}`).classList.remove('hidden');
         }
 
-        function saveWeek() {
+        function saveWeek(silent = false) {
             const data = {};
-            days.forEach(d => data[d.id] = document.getElementById(`note-${d.id}`).value);
+            days.forEach(d => {
+                const el = document.getElementById(`note-${d.id}`);
+                if (el) data[d.id] = el.value;
+            });
             localStorage.setItem('royalWeek', JSON.stringify(data));
-            const btn = document.querySelector('button[onclick="saveWeek()"]');
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
-            setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-save"></i> حفظ التغييرات', 2000);
+
+            if (!silent) {
+                const btn = document.querySelector('button[onclick="saveWeek()"]');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
+                setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-save"></i> حفظ التغييرات', 2000);
+            }
         }
 
         function loadWeek() {
