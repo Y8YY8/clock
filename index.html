@@ -13,8 +13,8 @@
             theme: {
                 extend: {
                     colors: {
-                        'royal-gold': '#D4AF37',
-                        'royal-gold-light': '#F9E4B7',
+                        'royal-accent': '#94a3b8',
+                        'royal-accent-light': '#f1f5f9',
                         'royal-black': '#050505',
                         'glass-bg': 'rgba(15, 15, 15, 0.9)',
                     },
@@ -32,14 +32,14 @@
 
     <style>
         :root {
-            --gold-primary: #D4AF37;
+            --accent-primary: #94a3b8;
         }
 
         body {
             background-color: #020202;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 50% 0%, rgba(148, 163, 184, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(148, 163, 184, 0.05) 0%, transparent 50%);
             color: #ececec;
             font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
@@ -56,7 +56,7 @@
             transition: all 0.3s ease;
         }
         .luxury-card:hover {
-            border-color: rgba(212, 175, 55, 0.3);
+            border-color: rgba(148, 163, 184, 0.3);
             box-shadow: 0 8px 32px -1px rgba(0, 0, 0, 0.6);
         }
 
@@ -80,7 +80,7 @@
             border: 2px solid #555;
             transition: all 0.3s ease;
         }
-        .timeline-item.work::before { background: #D4AF37; border-color: #D4AF37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .timeline-item.work::before { background: #94a3b8; border-color: #94a3b8; box-shadow: 0 0 10px rgba(148, 163, 184, 0.5); }
         .timeline-item.break::before { background: #10b981; border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
 
         /* Inputs */
@@ -92,20 +92,20 @@
         }
         .input-royal:focus {
             outline: none;
-            border-color: #D4AF37;
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .tab-btn.active {
-            background: rgba(212, 175, 55, 0.1);
-            color: #D4AF37;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
         }
     </style>
 </head>
@@ -119,7 +119,7 @@
                 <div id="modalIconBox" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-gray-800 text-white"></div>
                 <div>
                     <h3 id="modalTitle" class="text-xl font-bold text-white"></h3>
-                    <span id="modalTime" class="text-xs text-[#D4AF37] font-mono border border-[#D4AF37]/30 px-2 py-0.5 rounded"></span>
+                    <span id="modalTime" class="text-xs text-slate-400 font-mono border border-slate-400/30 px-2 py-0.5 rounded"></span>
                 </div>
             </div>
             <div class="space-y-4">
@@ -137,7 +137,7 @@
 
     <!-- Header -->
     <header class="py-6 text-center border-b border-white/5 bg-black/50 backdrop-blur-sm sticky top-0 z-40">
-        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9E4B7]">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-slate-100">
             لوحة القيادة الملكية
         </h1>
         <p class="text-[10px] text-gray-500 tracking-[0.3em] uppercase mt-1">V4 System • Live Data</p>
@@ -151,8 +151,8 @@
             
             <!-- Custom Time -->
             <div class="luxury-card rounded-3xl p-6 text-center relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#D4AF37] opacity-10 blur-3xl rounded-full"></div>
-                <div class="flex items-center justify-center gap-2 mb-2 text-[#D4AF37]">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-slate-400 opacity-10 blur-3xl rounded-full"></div>
+                <div class="flex items-center justify-center gap-2 mb-2 text-slate-400">
                     <i class="fa-solid fa-hourglass-half animate-pulse-slow"></i>
                     <span class="text-[10px] font-bold tracking-widest uppercase">التوقيت المخصص</span>
                 </div>
@@ -169,7 +169,7 @@
             <div class="luxury-card rounded-3xl p-6 relative">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-sm font-bold text-gray-200 flex items-center gap-2">
-                        <i class="fa-solid fa-coins text-[#D4AF37]"></i> الخزينة
+                        <i class="fa-solid fa-coins text-slate-400"></i> الخزينة
                     </h3>
                     <div id="apiStatus" class="flex items-center gap-1.5 text-[10px]">
                         <span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span> جاري التحميل...
@@ -191,7 +191,7 @@
                             <option value="AED">AED - درهم</option>
                             <option value="EGP">EGP - جنيه</option>
                         </select>
-                        <button id="swapBtn" class="w-10 flex-shrink-0 bg-[#D4AF37]/10 hover:bg-[#D4AF37] text-[#D4AF37] hover:text-black rounded-xl flex items-center justify-center transition-colors">
+                        <button id="swapBtn" class="w-10 flex-shrink-0 bg-slate-400/10 hover:bg-slate-400 text-slate-400 hover:text-black rounded-xl flex items-center justify-center transition-colors">
                             <i class="fa-solid fa-repeat"></i>
                         </button>
                         <select id="toCurrency" class="input-royal w-full p-2 rounded-xl text-sm font-bold en-num cursor-pointer">
@@ -204,7 +204,7 @@
                     </div>
 
                     <div class="bg-[#111] rounded-xl p-4 text-center border border-white/5 mt-2">
-                        <p id="conversionResult" class="text-3xl font-black text-[#D4AF37] en-num">0.00</p>
+                        <p id="conversionResult" class="text-3xl font-black text-slate-400 en-num">0.00</p>
                         <p id="rateInfo" class="text-[10px] text-gray-500 mt-1 en-num">Updating rates...</p>
                     </div>
                 </div>
@@ -227,8 +227,8 @@
             <!-- Daily Plan -->
             <div id="view-daily" class="luxury-card rounded-[2.5rem] p-8 min-h-[600px]">
                 <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-list-check text-[#D4AF37] ml-2"></i> جدول اليوم</h2>
-                    <span class="text-xs bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full border border-[#D4AF37]/20">Flow State</span>
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-list-check text-slate-400 ml-2"></i> جدول اليوم</h2>
+                    <span class="text-xs bg-slate-400/10 text-slate-400 px-3 py-1 rounded-full border border-slate-400/20">Flow State</span>
                 </div>
                 <div id="timelineContainer" class="pl-2">
                     <!-- JS Injected -->
@@ -238,7 +238,7 @@
             <!-- Weekly Plan -->
             <div id="view-weekly" class="luxury-card rounded-[2.5rem] p-8 min-h-[600px] hidden">
                 <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-calendar-days text-[#D4AF37] ml-2"></i> الخطة الأسبوعية</h2>
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-calendar-days text-slate-400 ml-2"></i> الخطة الأسبوعية</h2>
                     <div class="flex gap-2">
                         <button onclick="clearWeek()" class="text-xs bg-red-500/10 text-red-500 px-4 py-2 rounded-full hover:bg-red-500 hover:text-white transition-all">
                             <i class="fa-solid fa-trash"></i> مسح الكل
@@ -251,13 +251,13 @@
 
                 <!-- Cloud Sync Section -->
                 <div class="mb-6 p-4 bg-white/5 rounded-2xl border border-white/5 flex flex-wrap items-center gap-4">
-                    <div class="flex items-center gap-2 text-[#D4AF37]">
+                    <div class="flex items-center gap-2 text-slate-400">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         <span class="text-xs font-bold">المزامنة السحابية</span>
                     </div>
                     <input type="text" id="syncIdInput" class="input-royal flex-grow min-w-[200px] p-2 rounded-lg text-xs en-num" placeholder="كود المزامنة (Sync ID)...">
                     <div class="flex gap-2">
-                        <button onclick="linkSync()" class="text-[10px] bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1.5 rounded-lg hover:bg-[#D4AF37] hover:text-black transition-all">
+                        <button onclick="linkSync()" class="text-[10px] bg-slate-400/10 text-slate-400 px-3 py-1.5 rounded-lg hover:bg-slate-400 hover:text-black transition-all">
                             <i class="fa-solid fa-link"></i> ربط
                         </button>
                         <button onclick="createNewSync()" class="text-[10px] bg-white/5 text-gray-400 px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-all">
@@ -381,8 +381,8 @@
             const tlContainer = document.getElementById('timelineContainer');
             let tlHtml = '';
             schedule.forEach((item, i) => {
-                const colorClass = item.type === 'work' ? 'work text-[#D4AF37]' : 'break text-emerald-400';
-                const bgHover = item.type === 'work' ? 'hover:border-[#D4AF37]/50' : 'hover:border-emerald-500/50';
+                const colorClass = item.type === 'work' ? 'work text-slate-400' : 'break text-emerald-400';
+                const bgHover = item.type === 'work' ? 'hover:border-slate-400/50' : 'hover:border-emerald-500/50';
                 
                 tlHtml += `
                 <div class="timeline-item ${item.type} cursor-pointer group" onclick="openModal(${i})">
@@ -402,12 +402,12 @@
             let wkHtml = '';
             days.forEach(d => {
                 wkHtml += `
-                <div class="bg-white/5 border border-white/5 rounded-2xl p-4 hover:border-[#D4AF37]/30 transition-all">
+                <div class="bg-white/5 border border-white/5 rounded-2xl p-4 hover:border-slate-400/30 transition-all">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[#D4AF37] font-bold text-sm">${d.name}</span>
+                        <span class="text-slate-400 font-bold text-sm">${d.name}</span>
                         <span class="text-[10px] text-gray-600 en-num uppercase">${d.en}</span>
                     </div>
-                    <textarea id="note-${d.id}" oninput="saveWeek(true)" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-[#D4AF37] outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
+                    <textarea id="note-${d.id}" oninput="saveWeek(true)" class="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-xs text-gray-300 focus:border-slate-400 outline-none resize-none" placeholder="مهام ${d.name}..."></textarea>
                 </div>`;
             });
             wkContainer.innerHTML = wkHtml;
@@ -442,8 +442,8 @@
             
             const iconBox = document.getElementById('modalIconBox');
             if(item.type === 'work') {
-                iconBox.innerHTML = '<i class="fa-solid fa-fire text-[#D4AF37]"></i>';
-                iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30";
+                iconBox.innerHTML = '<i class="fa-solid fa-fire text-slate-400"></i>';
+                iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-slate-400/10 border border-slate-400/30";
             } else {
                 iconBox.innerHTML = '<i class="fa-solid fa-mug-hot text-emerald-400"></i>';
                 iconBox.className = "w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-emerald-500/10 border border-emerald-500/30";
@@ -461,7 +461,7 @@
         }
 
         function switchTab(t) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-[#D4AF37]'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-slate-400'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('text-gray-500'));
             
             document.getElementById(`btn-${t}`).classList.add('active');
